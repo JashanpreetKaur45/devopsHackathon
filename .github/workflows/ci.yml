@@ -1,24 +1,21 @@
-name: CI
+name: Secret Scan with Gitleaks
 
 on:
   push:
     branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  gitleaks-scan:
+    name: Run Gitleaks Secret Scanner
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Node
-        uses: actions/setup-node@v3
+      - name: Run Gitleaks scan
+        uses: gitleaks/gitleaks-action@v2
         with:
-          node-version: '12'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run basic test
-        run: echo "No tests yet"
+          args: "--verbose --redact"
