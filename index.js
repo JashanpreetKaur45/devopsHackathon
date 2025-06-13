@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 3000;
 
 // ---- Intentional Security Issue ----
 // Hard‑coded secret. REMOVE ME!
-const DB_PASSWORD = 'SuperSecret123!';
+const DB_PASSWORD = process.env.DB_PASSWORD;
 
 app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'Hello insecure world!' });
