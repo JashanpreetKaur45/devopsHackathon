@@ -1,21 +1,29 @@
-name: Secret Scan with Gitleaks
+name: CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
 
 jobs:
-  gitleaks-scan:
-    name: Run Gitleaks Secret Scanner
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
-      - name: Run Gitleaks scan
-        uses: gitleaks/gitleaks-action@v2
+      - name: Set up Node
+        uses: actions/setup-node@v3
         with:
-          args: "--verbose --redact"
+          node-version: '12'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run basic test
+        run: echo "No tests yet"
+
+      - name: Run TruffleHog Secret Scan
+        uses: edplato/trufflehog-actions-scan@v1.0.4
+        with:
+          scanArguments: --regex --entropy=True
